@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NepsCrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            animation: fadeIn 1s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #1f1f1f;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            transition: width 0.3s, padding 0.3s;
+        }
+        .sidebar:hover {
+            width: 270px;
+            padding: 20px 30px;
+        }
+        .sidebar h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+            margin-bottom: 10px;
+            white-space: nowrap;
+        }
+        .sidebar a:hover {
+            background-color: #333333;
+        }
+        .sidebar a .icon {
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .hero {
+            background: linear-gradient(to bottom right, #3a3a3a, #1f1f1f);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 800px;
+        }
+        .hero h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+        .hero p {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+        }
+        .cta-button {
+            background-color: #ff4081;
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s;
+        }
+        .cta-button:hover {
+            background-color: #e91e63;
+        }
+        .developers {
+            margin-top: 30px;
+            text-align: center;
+            background: #3a3a3a;
+            border-radius: 15px;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .developers h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        .developers p {
+            color: #e0e0e0;
+            margin: 5px 0;
+        }
+        .games-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            width: 80%;
+            margin-top: 20px;
+        }
+        .card {
+            background: linear-gradient(to bottom right, #3a3a3a, #1f1f1f);
+            border-radius: 15px;
+            padding: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card img {
+            border-radius: 10px;
+            width: 100%;
+            height: auto;
+        }
+        .card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h1>NepsCrack</h1>
+        <a href="index.html"><span class="icon">🏠</span>Accueil</a>
+        <a href="jeux.html"><span class="icon">🎮</span>Jeux</a>
+        <a href="discord.html"><span class="icon">💬</span>Discord</a>
+        <a href="about.html"><span class="icon">ℹ️</span>À propos</a>
+        <button class="login-btn">🔑 Connexion</button>
+    </div>
+
+    <div class="content">
+        <!-- Section d'accueil -->
+        <div id="accueil" class="hero">
+            <h2>Bienvenue sur NepsCrack</h2>
+            <p>Découvrez des jeux incroyables, rejoignez notre communauté et accédez à des ressources uniques.</p>
+            <button class="cta-button" onclick="document.getElementById('jeux').scrollIntoView();">Explorer les jeux</button>
+        </div>
+        
+        <div class="developers">
+            <h3>Développeurs</h3>
+            <p>👤 NightKikko - Fondateur et Développeur principal</p>
+            <p>👤 SenaxZz - Co-fondateur</p>
+            <p>👤 HJCS - Gérant général</p>
+            <p>👤 Drastiks - Modérateur chef</p>
+            <p>👤 Molik - Modérateur</p>
+        </div>
+
+        <!-- Section des jeux -->
+        <div id="jeux" class="games-container">
+            <h2 style="width: 100%; text-align: center; margin-top: 40px;">Jeux Disponibles</h2>
+            <div class="card">
+                <img src="https://via.placeholder.com/150" alt="Jeu 1">
+                <h4>Jeu 1</h4>
+            </div>
+            <div class="card">
+                <img src="https://via.placeholder.com/150" alt="Jeu 2">
+                <h4>Jeu 2</h4>
+            </div>
+            <div class="card">
+                <img src="https://via.placeholder.com/150" alt="Jeu 3">
+                <h4>Jeu 3</h4>
+            </div>
+            <div class="card">
+                <img src="https://via.placeholder.com/150" alt="Jeu 4">
+                <h4>Jeu 4</h4>
+            </div>
+            <!-- Ajoutez plus de jeux ici -->
+        </div>
+    </div>
+
+</body>
+</html>
