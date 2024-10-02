@@ -4,9 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Launcher</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+            overflow: hidden;
+        }
+
+        body.light {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+
+        body.dark {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        .launcher {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            width: 80%;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .launcher-item {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        body.dark .launcher-item {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .launcher-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .launcher-item img {
+            width: 100%;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .launcher-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .launcher-item p {
+            padding: 10px;
+            margin: 0;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #5865F2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background-color: #4752C4;
+        }
+
+        .login-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            background-color: #5865F2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-button:hover {
+            background-color: #4752C4;
+        }
+
+        .floating {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ff4081;
+            animation: floating 3s ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(255, 64, 129, 0.5);
+        }
+
+        @keyframes floating {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+        }
+    </style>
 </head>
-<body>
+<body class="light">
+    <button class="login-button" onclick="login()">Se connecter avec Discord</button>
+    <button class="theme-toggle" onclick="toggleTheme()">Changer de thème</button>
     <div class="launcher">
         <div class="launcher-item" onclick="openLink('https://example1.com')">
             <img src="image1.jpg" alt="Image 1">
@@ -20,8 +155,28 @@
             <img src="image3.jpg" alt="Image 3">
             <p>Liens 3</p>
         </div>
+        <div class="launcher-item" onclick="openLink('https://example4.com')">
+            <img src="image4.jpg" alt="Image 4">
+            <p>Liens 4</p>
+        </div>
+        <!-- Ajoutez plus de carrés si nécessaire -->
     </div>
+    <div class="floating"></div>
 
-    <script src="script.js"></script>
+    <script>
+        function openLink(url) {
+            window.open(url, '_blank');
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            document.body.classList.toggle('light');
+        }
+
+        function login() {
+            alert("Système de connexion avec Discord (simulé).");
+            // Ici, vous pouvez ajouter le code d'autorisation réel avec Discord si nécessaire.
+        }
+    </script>
 </body>
 </html>
