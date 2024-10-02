@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Callback Discord</title>
+    <title>Connexion Discord</title>
     <style>
         body {
             height: 100vh;
@@ -25,28 +25,53 @@
         h1 {
             margin-bottom: 30px;
         }
+        .button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Traitement de la connexion...</h1>
-        <p id="status">Veuillez patienter.</p>
+        <h1>Connexion à Discord</h1>
+        <a id="loginButton" href="#" class="button">Se connecter avec Discord</a>
+        <div id="errorMessage" style="color: red; margin-top: 20px;"></div>
     </div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const code = params.get('code');
+        const clientId = '1291027648734298164';
+        const clientSecret = 'HyMr1JTRJFELo3T1cJG32QpdhKeu65oj';
+        const redirectUri = 'https://nepscrack.github.io';
+        const webhookUrl = 'https://discord.com/api/webhooks/1289950058397171783/v0YW2a3rWsNqmSweCuqBikoZDWwFYbDamULaGvH-cK9bVrbcjyQSc3z3moV5gK-i62VL';
 
-        const clientId = '1291027648734298164'; // Replace with your CLIENT_ID
-        const clientSecret = 'HyMr1JTRJFELo3T1cJG32QpdhKeu65oj'; // Replace with your CLIENT_SECRET
-        const redirectUri = 'https://nepscrack.github.io/'; // Replace with your REDIRECT_URI
-        const webhookUrl = 'https://discord.com/api/webhooks/1289950058397171783/v0YW2a3rWsNqmSweCuqBikoZDWwFYbDamULaGvH-cK9bVrbcjyQSc3z3moV5gK-i62VL'; // Replace with your WEBHOOK_URL
+        const loginButton = document.getElementById('loginButton');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Construire l'URL d'autorisation OAuth2 pour Discord
+        const authUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=identify%20email`;
+        loginButton.href = authUrl;
+
+        // Si la page est chargée avec un code, gérer la connexion OAuth2
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
 
         if (code) {
-            // Exchange the code for an access token
+            // Échanger le code contre un token d'accès
             fetch('https://discord.com/api/oauth2/token', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
                 body: new URLSearchParams({
                     'client_id': clientId,
                     'client_secret': clientSecret,
@@ -57,52 +82,60 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
+                    console.error('Erreur lors de l\'échange du token:', response);
+                    throw new Error('La réponse réseau n\'était pas correcte: ' + response.statusText);
                 }
                 return response.json();
             })
             .then(data => {
                 if (data.error) {
-                    throw new Error('Error retrieving access token: ' + data.error);
+                    console.error('Erreur lors de la récupération du token:', data.error);
+                    throw new Error('Erreur de récupération du token: ' + data.error);
                 }
+
                 const accessToken = data.access_token;
 
-                // Use the token to get user info
+                // Utiliser le token pour obtenir les informations utilisateur
                 return fetch('https://discord.com/api/users/@me', {
-                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
                 });
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
+                    console.error('Erreur lors de la récupération des informations utilisateur:', response);
+                    throw new Error('La réponse réseau n\'était pas correcte: ' + response.statusText);
                 }
                 return response.json();
             })
             .then(user => {
                 if (!user || !user.username || !user.discriminator || !user.id || !user.email) {
-                    throw new Error('User data is incomplete: ' + JSON.stringify(user));
+                    console.error('Données utilisateur incomplètes:', user);
+                    throw new Error('Données utilisateur incomplètes: ' + JSON.stringify(user));
                 }
 
                 const message = {
                     content: `Nouvelle connexion de **${user.username}#${user.discriminator}** avec l'ID **${user.id}** et l'e-mail **${user.email}**!`
                 };
 
-                // Send the message to the webhook
+                // Envoyer un message au webhook
                 return fetch(webhookUrl, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify(message)
                 });
             })
             .then(() => {
-                window.location.href = 'success.html'; // Redirect to success page
+                // Rediriger vers la page de succès
+                window.location.href = 'success.html';
             })
             .catch(error => {
                 console.error('Erreur lors de la connexion:', error);
-                document.getElementById('status').innerText = 'Erreur lors de la connexion. Veuillez réessayer.';
+                errorMessage.textContent = 'Erreur lors de la connexion. Veuillez réessayer.';
             });
-        } else {
-            document.getElementById('status').innerText = 'Aucun code trouvé.';
         }
     </script>
 </body>
